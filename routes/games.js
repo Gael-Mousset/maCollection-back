@@ -6,7 +6,13 @@ const Game = require("../models/Game");
 // @desc    Get all games
 router.get("/", async (req, res) => {
   try {
-    const games = await Game.find();
+    const platform = req.query.platform;
+    let games;
+    if (platform) {
+      games = await Game.find({ platform });
+    } else {
+      games = await Game.find();
+    }
     res.json(games);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -16,12 +22,13 @@ router.get("/", async (req, res) => {
 // @route   POST /api/games
 // @desc    Add a new game
 router.post("/", async (req, res) => {
-  const { id, game_title, release_date } = req.body;
+  const { id, game_title, release_date, platform } = req.body;
 
   const newGame = new Game({
     id,
     game_title,
     release_date,
+    platform,
   });
 
   try {
