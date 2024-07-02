@@ -6,6 +6,7 @@ const GameSchema = new Schema({
   game_title: { type: String, required: true },
   release_date: { type: String },
   platform: { type: Number, required: true },
+  quantity: { type: Number, default: 1 },
 });
 
 module.exports = mongoose.model("Game", GameSchema);
