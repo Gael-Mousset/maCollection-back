@@ -22,14 +22,16 @@ mongoose
 
 // Routes
 const games = require("./routes/games");
+
 app.use("/api/games", games);
 
 app.get("/proxy", async (req, res) => {
   const name = req.query.name;
   const apiKey =
     "e2632452c70b87623a7abd8f06273b80f723db6158242bebb380284efa6a251c"; // Ideally, use process.env for keys
-  const url = `https://api.thegamesdb.net/v1/Games/ByGameName?apikey=${apiKey}&name=${name}`;
-
+  const platform = req.query.platform;
+  const url = `https://api.thegamesdb.net/v1/Games/ByGameName?apikey=${apiKey}&name=${name}&filter%5Bplatform%5D=${platform}`;
+  console.log("l'url :", url);
   try {
     const response = await axios.get(url);
     res.send(response.data);
